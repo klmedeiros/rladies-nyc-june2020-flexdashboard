@@ -23,7 +23,10 @@ Column {data-width=650}
 ```{r}
 trees_2015 %>% 
   ggplot(aes(tree_dbh)) +
-  geom_histogram()
+  geom_histogram() +
+  labs(title = "Diameter of NYC trees, 2015",
+       x = "Diameter (in)",
+       y = "# of trees")
 ```
 
 Column {data-width=350}
