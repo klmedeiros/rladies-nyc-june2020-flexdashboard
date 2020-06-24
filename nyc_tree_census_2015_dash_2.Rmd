@@ -1,0 +1,53 @@
+---
+title: "NYC 2015 Tree Census"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+# libraries
+library(flexdashboard)
+library(tidyverse)
+library(leaflet)
+library(DT)
+
+# load data
+trees_2015 <- read_csv("new_york_tree_census_2015.csv")
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Tree diameter distribution
+
+```{r}
+trees_2015 %>% 
+  ggplot(aes(tree_dbh)) +
+  geom_histogram()
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Status
+
+```{r}
+trees_2015 %>% 
+  count(status, sort = TRUE) %>% 
+  DT::datatable(colnames = c("Status", "Number of Trees"),
+                filter = "top")
+```
+
+### 1200 Random Trees
+
+```{r}
+trees_2015 %>% 
+  # filter(boroname == "Queens") %>% 
+  sample_n(1200) %>%
+  leaflet() %>%
+  addTiles() %>%
+  addMarkers()
+```
+
